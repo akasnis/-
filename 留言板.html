@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      input,
+      textarea {
+        border: 0;
+        outline: none;
+      }
+      ul {
+        list-style: none;
+      }
+      body {
+        color: #333;
+        font-size: 14px;
+      }
+      .main {
+        width: 1000px;
+        margin: 10px auto;
+        background-color: #f4f4f4;
+      }
+      .post {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+      .post h2 {
+        height: 40px;
+        line-height: 40px;
+        font-size: 20px;
+      }
+      .post .author {
+        height: 24px;
+        color: #999;
+        font-size: 12px;
+      }
+      .post .txt {
+        line-height: 28px;
+      }
+
+      .reply {
+        padding: 10px;
+      }
+      .reply h4 {
+        height: 40px;
+        line-height: 40px;
+      }
+      .reply p {
+        height: 24px;
+        margin-bottom: 10px;
+        line-height: 24px;
+      }
+      .reply p .user {
+        height: 24px;
+        padding: 0 10px;
+        color: #333;
+      }
+      .reply .editor {
+        display: block;
+        width: 100%;
+        height: 100px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        color: #444;
+        font-family: "微软雅黑";
+        line-height: 24px;
+        resize: none;
+      }
+      .reply .btn {
+        display: block;
+        width: 60px;
+        height: 30px;
+        border-radius: 3px;
+        margin-bottom: 10px;
+        background-color: #3782f0;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .reply .btn:hover {
+        background-color: #1256bd;
+      }
+      .cmts {
+        padding: 10px;
+      }
+      .cmts .list {
+        border-top: 1px solid #ccc;
+      }
+      .cmts .list li {
+        padding: 10px;
+      }
+      .cmts .list li .floor,
+      .cmts .list li .author {
+        color: #999;
+        font-size: 12px;
+        line-height: 24px;
+      }
+      .cmts .list li .floor .delete {
+        float: right;
+      }
+      .cmts .list li .content {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        line-height: 28px;
+      }
+    </style>
+    <script src="javascript/jquery-1.12.4.js"></script>
+    <script src="javascript/template-native.js"></script>
+    <script id="tem" type="text/html">
+      <!-- 遍历得到的数据 -->
+      <% for(var i=0 ; i<comments.length ; i++){ %>
+        <li uid="<%= comments[i].id %>">
+          <p class="floor">
+            <%= comments[i].id %>楼
+            <a href="javascript:;" class="delete">删除</a>
+          </p>
+          <p class="author">
+            层主：<span class="name"><%= comments[i].username %></span>
+          </p>
+          <p class="content"><%= comments[i].content %></p>
+        </li>
+        <% } %>
+      </comments.length>
+    </script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="post">
+        <h2>新年快乐</h2>
+        <p class="author">楼主：行痴</p>
+        <p class="txt">新的一年，祝大家新年快乐，身体健康，升职加薪！</p>
+      </div>
+      <div class="reply">
+        <h4>发表回复</h4>
+        <p>用户名：<input type="text" class="user" /></p>
+        <textarea class="editor"></textarea>
+        <input type="button" value="发表" class="btn" />
+      </div>
+      <div class="cmts">
+        <ul class="list"></ul>
+      </div>
+    </div>
+    <script>
+      //   获取元素
+      $list = $(".cmts .list");
+      $btn = $(".btn");
+      $user = $(".reply .user");
+      $editor = $(".reply .editor");
+      // 获取后台数据
+      getData();
+      function getData(){
+        $.ajax({
+        url: "http://localhost:3000/db",
+        type: "GET",
+        success: function (data) {
+          console.log(data);
+          // 将得到的数据添加到模板中
+          $list.html(template("tem", data));
+          //   在这获取删除按钮，添加点击事件
+          deleteData();
+        },
+      });
+      }
+      
+      //   添加新数据到数据库中
+      // 绑定点击事件
+      $btn.click(function () {
+        var username = $user.val();
+        var content = $editor.val();
+        $.ajax({
+          url: "http://localhost:3000/comments",
+          type: "POST",
+          dataType: "json",
+          data: {
+            username: username,
+            content: content,
+          },
+          success: function (data) {
+            // console.log(data);
+            $list.append(template("tem", { comments: [data] }));
+            deleteData();
+          },
+        });
+        // 清空内容
+        $user.val("");
+        $editor.val("");
+      });
+      function deleteData(){
+        $(".cmts .list .delete").click(function () {
+            //    找到祖先节点的li
+            $li = $(this).parents("li");
+            // 找到li属性在数据库的id
+            var index = $li.attr("uid");
+            // 发送请求到数据库删除对应数据
+            $.ajax({
+              url: "http://localhost:3000/comments/" + index,
+              type: "DELETE",
+            });
+            // 从DOM结构删除li
+            $li.remove();
+          });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        }
+        #box{
+            width: 50%;
+            margin: 100px auto;
+            font-size: 14px;
+            text-align: center;
+        }
+        table,td,th{
+            border: 1px solid;
+        }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        tr{
+            height: 30px;
+        }
+        button{
+            margin: 20px 0;
+            padding: 5px;
+        }
+        input{
+            margin: 10px 0;
+        }
+        thead{
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+      科　　目：
+    <input type="text"></body><br>
+    所属学院：
+    <input type="text"></body><br>
+    <button>清空</button> 
+    <button>添加</button> 
+    <table>
+        <thead>
+            <tr>
+                <th>课程</th>
+                <th>所属学院</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>HTML</td>
+                <td>尚学堂</td>
+                <td><span>删除</span></td>
+            </tr>
+            <tr>
+                <td>CSS</td>
+                <td>尚学堂</td>
+                <td><span>删除</span></td>
+            </tr>
+            <tr>
+                <td>JavaScript</td>
+                <td>尚学堂</td>
+                <td><span>删除</span></td>
+            </tr>
+            <tr>
+                <td>jQuery</td>
+                <td>尚学堂</td>
+                <td><span>删除</span></td>
+            </tr>
+        </tbody>
+    </table>  
+    </div>
+    
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script>
+        // 清空
+        $('button')
+        .first()
+        .click(function(){
+            $('tbody').empty();
+        })
+        // 添加
+        $('button')
+        .last()
+        .click(
+            function(){
+               var subject = $('input').first().val();
+               var college = $('input').last().val();
+                // 判断内容是否为空
+                if(subject == ''||college == '')
+                {alert('输入的内容不可以为空');}
+                else{
+                    var str = `<tr><td>${subject}</td><td>${college}</td><td><span>删除</span></td></tr>`
+                    // 添加的内容渲染到页面
+                    $('tbody').append(str);
+                    // 清空文本框 
+                    $('input').first().val('');
+                    $('input').last().val('');
+                    //删除效果
+                    
+                }
+            }
+        )
+        //span事件委托给tbody,this是后代元素
+        $('tbody').on('click','span',function(){
+            var res = confirm('是否删除');
+            if(res){
+                $(this).parent().parent().remove();
+            }
+            
+        })
+    </script>
+</body>
+</html>

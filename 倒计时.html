@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    
+</head>
+
+<body>
+    <div>123</div>
+    <script>
+        function countDown(time) {
+            var nowTime = +new Date();
+            var inputTime = +new Date(time);
+            var times = (inputTime - nowTime) / 1000;
+            var d = parseInt(times / 60 / 60 / 24);
+            d = d < 10 ? '0' + d : d;
+            var h = parseInt(times / 60 / 60 % 24);
+            h = h < 10 ? '0' + h : h;
+            var m = parseInt(times / 60 % 60);
+            m = m < 10 ? '0' + m : m;
+            var s = parseInt(times % 60);
+            s = s < 10 ? '0' + s : s;
+            return d + '天' + h + '小时' + s + '秒';
+        }
+        var div = document.querySelector('div');
+        var timer = setInterval(function(){
+            div.innerHTML = countDown('2022-3-20 00:00:00');
+        }, 1000);
+        // console.log(div);
+        
+    </script>
+</body>
+
+</html>

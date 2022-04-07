@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      div {
+        width: 400px;
+        height: 300px;
+        margin: 100px auto;
+        overflow: hidden;
+        border: 1px solid #f00;
+        line-height: 2em;
+      }
+      a {
+        color: #000;
+        text-decoration: none;
+      }
+      ul {
+        list-style: none;
+      }
+      li:hover {
+        color: #f00;
+      }
+      a:hover {
+        color: #f00;
+      }
+      span {
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <ul>
+        <li>
+          <span>1</span>
+          <a href=""> 大S再婚全家开启“爱情直播”，浑身是戏成中国版卡戴珊？ </a>
+        </li>
+        <li>
+          <span>2</span>
+          <a href="">被大S秀恩爱惹怒？汪小菲取关再次改名，彻底撇清关系</a>
+        </li>
+        <li>
+          <span>3</span>
+          <a href=""> 杨紫琼发文确诊感染新冠 戴口罩盖被子包裹严实</a>
+        </li>
+        <li>
+          <span>4</span>
+          <a href="">董卿老公密春雷失联90天！曾接盘华谊兄弟，豪掷60亿买地</a>
+        </li>
+        <li>
+          <span>5</span>
+          <a href="">网友身材被恶意评论，谷爱凌：不自信的人才去嘲笑别人人</a>
+        </li>
+        <li>
+          <span>6</span>
+          <a href="">默默考北大惊艳所有人，建议娱乐圈都按这个标准卷</a>
+        </li>
+        <li>
+          <span>7</span>
+          <a href=""
+            >林志颖跟旧爱林心如同框，被对方挽着胳膊，吓到不敢直视眼睛</a
+          >
+        </li>
+        <li>
+          <span>8</span>
+          <a href="">汪小菲重回三亚，称欠大s一个婚礼，只是重办婚礼不可能了</a>
+        </li>
+        <li>
+          <span>9</span>
+          <a href="">吴彦祖晒合影悼念93岁父亲，十几岁青涩稚嫩撞脸黄晓明杨洋</a>
+        </li>
+        <li>
+          <span>10</span>
+          <a href=""
+            >周杰伦发文敬请期待？粉丝：歌王别再当鸽王，我们要新专辑！</a
+          >
+        </li>
+      </ul>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script>
+        // 复制li添加到ul
+        $("li").clone().appendTo("ul");
+        // 启动定时器调用moveup方法
+        var timer = setInterval(moveUp, 10);
+      //   设置鼠标移入移出效果
+        $('div').hover(
+            function(){
+                clearInterval(timer);
+            }
+        ,function(){
+          timer = setInterval(moveUp, 10);
+        });
+
+        // 封装方法让ul滚动
+        function moveUp() {
+          // 获取scroll的值
+          var top = $("div").scrollTop();
+          if (top > $("ul").height() / 2) {
+            $("div").scrollTop(0);
+          } else {
+            $("div").scrollTop(top + 1);
+          }
+        }
+    </script>
+  </body>
+</html>

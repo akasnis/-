@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      span {
+        color: #f00;
+        font-size: 10px;
+        margin: 0 5px;
+      }
+      .contain {
+        width: 600px;
+        margin: 15px auto;
+      }
+      .save {
+        width: 50px;
+        height: 30px;
+        border: 1px solid lightblue;
+        border-radius: 15px;
+        text-align: center;
+        line-height: 30px;
+        color: lightblue;
+        margin-left: 90px;
+      }
+      .wenben {
+        width: 100px;
+        text-align: right;
+        float: left;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="contain">
+      <span>*</span>
+      <div class="wenben">姓 名：</div>
+      <input type="text" placeholder="请输入姓名" />
+    </div>
+    <div class="contain">
+      <span>*</span>
+      <div class="wenben">工 号：</div>
+      <input type="text" placeholder="请输入工号" />
+    </div>
+    <div class="contain">
+      <div class="wenben">手机号：</div>
+      <input type="text" placeholder="请输入手机号" />
+    </div>
+    <div class="contain">
+      　
+      <div class="wenben">邮 箱：</div>
+      <input type="text" placeholder="请输入邮箱" />
+    </div>
+    <div class="contain">
+      　
+      <div class="wenben">性 别：</div>
+      <input type="radio" />男　　<input type="radio" />女
+    </div>
+    <div class="contain">
+      　
+      <div class="wenben">级 别：</div>
+      <input type="radio" />主管　<input type="radio" />教师
+    </div>
+    <div class="contain">
+      <span>*</span>
+      <div class="wenben">密 码：</div>
+      <input type="password" />
+    </div>
+    <div class="contain">
+      <span>*</span>
+      <div class="wenben">确认密码：</div>
+      <input type="password" placeholder="请输入确认密码" />
+    </div>
+    <div class="contain">
+      <div class="save">保存</div>
+    </div>
+    <script>
+      var date=new Date();
+    var year=date.getFullYear();
+    var month=date.getMonth();
+    var day=date.getDate();
+    var hour=date.getHours();
+    var minute=date.getMinutes();
+    var second=date.getSeconds();
+    document.write("1.转换大写格式日期模式："+year+"年"+(month+1)+"月"+(day)+"日"+" "+hour+"时"+minute+"分"+second+"秒");
+    document.write("<br>");
+    document.write("2.根据日期的不同时间段，做问候语：");
+    var h=parseInt(hour);
+    if (h>=8&&h<12){
+        document.write("早上好！欢迎登陆系统");
+    }else if (h>=12&&h<14){
+        document.write("中午好！该休息了");
+    }else if (h>=14&&h<18){
+        document.write("下午好！欢迎登陆系统");
+    }else if (h>=19){
+        document.write("晚上好！><><><><><><><><");
+    }
+    document.write("<br>");
+    var a = new Array("日", "一", "二", "三", "四", "五", "六");
+    document.write("3.计算当前时间向前、向后（一天、一个月）的日期，并取出时星期几：");
+    document.write("<br>");
+    const now=new Date();
+    const yesterday=new Date(now.setDate(now.getDate()-1));
+
+    document.write("向前一天："+yesterday+"是星期"+a[yesterday.getDay()]);
+    document.write("<br>");
+    const tomorrow=new Date(now.setDate(now.getDate()+2));
+    document.write("向后一天："+tomorrow+"是星期"+a[tomorrow.getDay()]);
+    document.write("<br>");
+    const lastmonth=new Date(date.setMonth(date.getMonth()-1));
+    document.write("向前一月："+lastmonth+"是星期"+a[tomorrow.getDay()]);
+    document.write("<br>");
+    const nextmonth=new Date(date.setMonth(date.getMonth()+2));
+    document.write("向后一月："+nextmonth+"是星期"+a[tomorrow.getDay()]);
+    document.write("<br>");	
+      
+      
+    </script>
+  </body>
+</html>

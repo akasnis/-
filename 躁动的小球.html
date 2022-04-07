@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .box{
+            width: 800px;
+            height: 500px;
+            margin: 100px auto;
+            background-color: skyblue;
+            position: relative;
+        }
+        .ball{
+            position: absolute;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <script>
+        // 球的构造方法
+        
+        function Ball(){
+            // 球的类型
+            this.ball = document.createElement('div');
+            // 球的尺寸
+            var randomNum = randomFn(20,50);
+            this.width = randomNum;
+            this.height = randomNum;
+            // 球的颜色
+            this.bgColor= `rgb(${randomFn(0,255)},${randomFn(0,255)},${randomFn(0,255)})`;
+            // 球的位置
+            var box = document.querySelector('.box');
+            this.top = randomFn(0,box.offsetHeight-randomNum);
+            this.left = randomFn(0,box.offsetWidth-randomNum);
+            // 运动的速度
+            this.speedX = randomFn(-20,20);
+            this.speedY = randomFn(-20,20);
+        }
+              // 小球节点添加到容器中
+        Ball.prototype.render = function(){
+            var box = document.querySelector('.box');
+            box.appendChild(this.ball);
+            // 为节点添加CSS样式
+            this.ball.style.width = this.width + 'px';
+            this.ball.style.height = this.height + 'px';
+            this.ball.style.backgroundColor = this.bgColor;
+            this.ball.className = "ball";
+            this.ball.style.left = this.left + 'px';
+            this.ball.style.top = this.top + 'px';
+        };
+        // 让小球动起来
+        Ball.prototype.move = function(){
+            var _this = this;
+
+            setInterval(function(){
+            //   使用_this让定时器使用小球,直接用this会指向window
+            // 左右效果
+            // 获取小球当前left
+               var ballLeft =  parseInt(_this.ball.style.left);
+               _this.ball.style.left = ballLeft + _this.speedX + 'px'; 
+            //    判断是否到达边界
+            var box = document.querySelector('.box');
+            if(ballLeft>=box.offsetWidth-_this.width || ballLeft<0){
+                _this.speedX *= -1;
+                _this.ball.style.left = ballLeft + _this.speedX + 'px';
+            }
+            // 上下效果
+            // 获取小球当前left
+            var ballTop =  parseInt(_this.ball.style.top);
+               _this.ball.style.top = ballTop + _this.speedY + 'px'; 
+            //    判断是否到达边界
+            var box = document.querySelector('.box');
+            if(ballTop>=box.offsetHeight-_this.height || ballTop<0){
+                _this.speedY *= -1;
+                _this.ball.style.top = ballTop + _this.speedY + 'px';
+            }
+            }, 100);
+        }
+        
+
+         // 利用构造方法生成小球
+        for(var i=1; i<=10; i++){
+            var b = new Ball();
+            b.render();
+            b.move();
+        }
+        // 生成随机数函数
+        function randomFn(min,max){
+            return parseInt(Math.random()*(max-min+1) + min) ;
+        }
+    </script>
+</body>
+</html>

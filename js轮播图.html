@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul>li {
+            float: left;
+            margin: 0 10px;
+        }
+
+        .outer {
+            width: 540px;
+            height: 280px;
+            margin: 50px auto;
+            padding: 10px 0;
+            background-color: skyblue;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .imgList {
+            list-style: none;
+            position: absolute;
+            left: -540px;
+        }
+
+        /* 设置导航按钮 */
+        .navDiv {
+            position: absolute;
+            bottom: 10px;
+            
+        }
+        .navDiv>a{
+            float: left;
+            width: 15px;
+            height: 15px;
+            margin: 0 5px;
+            background-color: pink;
+            opacity: 0.5;
+            border-radius: 50%;
+            
+        }
+        .navDiv a:first-child{
+            background-color: #f00;
+        }
+        .navDiv>a:hover{
+            background-color: black;
+        }
+        
+         span{
+            display: none;
+            font-size: 30px;
+            color: white;
+            width: 40px;
+            height: 40px;
+            background-color: grey;
+            position: absolute;
+            top: 120px;
+            line-height: 40px;
+            text-align: center;
+        }
+        #arrright{
+            right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer">
+        <!-- ul放图片 -->
+        <ul class="imgList">
+            <li><img src="image/tb1.jpg" alt=""></li>
+            <li><img src="image/tb2.jpg" alt=""></li>
+            <li><img src="image/tb3.jpg" alt=""></li>
+            <li><img src="image/tb4.jpg" alt=""></li>
+            <li><img src="image/tb5.jpg" alt=""></li>
+        </ul>
+        <!-- 导航小点 -->
+        <div class="navDiv">
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+        </div>
+        
+            <span id="arrleft"><</span>
+            <span id="arrright">></span>
+        
+        
+    </div>
+
+    <script>
+        // 获取imgList
+        var imgList = document.querySelector(".imgList");
+        // 获取图片数组
+        var imgArr = document.querySelectorAll("img");
+        
+        imgList.style.width = 540 * imgArr.length + "px";
+        // 设置导航按钮居中
+        var outer = document.querySelector(".outer");
+        var navDiv = document.querySelector(".navDiv")
+       navDiv.style.left = (outer.offsetWidth - navDiv.offsetWidth)/2 + "px";
+       var allA = document.querySelectorAll("a");
+       //    点击下面方块换图片
+       var index = 0;
+       for(var i=0 ; i<allA.length; i++){
+           allA[i].num = i;
+           allA[i].onclick = function(){
+                index = this.num;
+                change()
+                allA[index].style.backgroundColor = '#f00';
+           }
+       }
+    // 改变图片函数
+    var change = function(){
+        imgList.style.left = -540*index + "px";
+        //    图片切换圆点变颜色
+        for(var j=0 ; j<allA.length ; j++){
+        allA[j].style.backgroundColor = 'pink'
+    }
+    allA[index].style.backgroundColor = '#f00'
+    }
+    //    自动轮播函数
+    var autoChange = function(){
+        
+        change();
+        index++;
+        // 修正index的值
+        if(index > allA.length-1){
+            index = 0;
+        } 
+       } 
+    //    启动定时器
+
+       var timer = setInterval(autoChange,1000);
+    
+    //    鼠标放上去显示，移开隐藏
+    var span = document.querySelectorAll("span");
+    console.log(span);
+    imgList.addEventListener('mouseover',function()
+    {
+        span[0].style.display = "block";
+        span[1].style.display = "block";
+        clearInterval(timer);
+        
+    }) 
+    imgList.onmouseout = function()
+    {
+        span[0].style.display = "none";
+        span[1].style.display = "none";
+        timer = setInterval(autoChange,1000);
+    }
+    // 点击箭头换图片
+    span[0].onclick = function(){
+        index--;
+        if(index<0){
+            index = allA.length-1;
+        }
+        change();
+    };
+    span[1].onclick = function(){
+        index++;
+        if(index > allA.length-1){
+            index = 0;
+        };
+        change();
+    };
+    </script>
+</body>
+
+</html>

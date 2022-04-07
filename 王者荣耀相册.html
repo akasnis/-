@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      #wrap {
+        width: 690px;
+        margin: 50px auto;
+      }
+      ul {
+        list-style: none;
+        /* 防止塌陷 */
+        overflow: hidden;
+      }
+      h2 {
+        text-align: center;
+        margin: 20px auto;
+        color: #2fd4c3;
+      }
+      li {
+        float: left;
+        margin-right: 10px;
+      }
+      ul li:first-of-type img {
+        opacity: 1;
+      }
+      ul li:last-of-type {
+        margin-right: 0;
+      }
+      li img {
+        width: 130px;
+        opacity: 0.5;
+      }
+      #show {
+        height: 400px;
+        overflow: hidden;
+        margin: 10px 0;
+      }
+      #show img {
+        width: 690px;
+      }
+      #content {
+        font-size: 14px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrap">
+      <h2>王者荣耀相册</h2>
+      <div id="title">
+        <ul>
+          <li><img src="image/wz1.jpg" alt="图1：韩信" /></li>
+          <li><img src="image/wz2.jpg" alt="图2：刘邦" /></li>
+          <li><img src="image/wz3.jpg" alt="图3：露娜" /></li>
+          <li><img src="image/wz4.jpg" alt="图4：兰陵王" /></li>
+          <li><img src="image/wz5.jpg" alt="图5：武则天" /></li>
+        </ul>
+      </div>
+      <div id="show"><img src="image/wz1.jpg" alt="" /></div>
+      <div id="content">图一：韩信</div>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script>
+      $("li img")
+        .mouseover(function () {
+          //   切换大图内容
+          $("#show img").attr("src", $(this).attr("src"));
+          // 切换下方标题
+          $("#content").html($(this).attr("alt"));
+          // 高亮显示鼠标移入的图片
+          $(this).css('opacity', 1);
+        })
+        .mouseout(function () {
+          $(this).css("opacity", 0.5);
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      ul {
+        list-style: none;
+      }
+      input {
+        border: 0;
+        outline: none;
+      }
+      .box {
+        width: 500px;
+        height: 50px;
+        margin: 20px auto;
+      }
+      .box .search-box {
+        float: left;
+        width: 400px;
+        border: 1px solid #08f;
+        box-sizing: border-box;
+      }
+      .box .search-box .txt {
+        display: block;
+        height: 48px;
+        line-height: 48px;
+        font-size: 16px;
+        color: #333;
+        padding-left: 10px;
+      }
+      .box .search-box ul li {
+        padding: 0 10px;
+        line-height: 38px;
+      }
+      .box .btn {
+        float: left;
+        width: 100px;
+        height: 50px;
+        background-color: #0af;
+        font-size: 20px;
+        color: #fff;
+        font-weight: bold;
+      }
+    </style>
+    <script src="javascript/template-native.js"></script>
+    <script id="tem" type="text/html">
+        <% for(var i=0 ; i<g.length ; i++){ %>
+          <li><%= g[i].q %></li>
+      <% } %>
+    </script>
+  </head>
+  <body>
+    <div class="box">
+      <div class="search-box">
+        <input type="text" class="txt" />
+        <ul class="suggest-list"></ul>
+      </div>
+      <input type="button" value="搜索" class="btn" />
+    </div>
+    <script src="javascript/jquery-1.12.4.js"></script>
+    <script>
+      $txt = $(".txt");
+      $ul = $(".suggest-list");
+      $txt.keyup(function () {
+        var keyword = $(this).val();
+
+        $.ajax({
+          url: "https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web",
+          dataType: "jsonp",
+          jsonp: "cb",
+          data: { wd: keyword },
+          success: function (data) {
+            // var arr = data.g;
+            // var str = "";
+            // for(var i=0;i<arr.length;i++){
+            //     str += `<li>${arr[i].q}</li>`
+            //     $ul.html(str);
+            // }
+            $ul.html(template("tem", data));
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
